@@ -1,0 +1,19 @@
+.form-group.required .control-label:after {
+	content: "*";
+	color: red;
+}
+input[type="file"]::file-selector-button {
+	margin-right: 20px;
+	border: none;
+	background: #e9ecef;
+	padding: 0px 20px;
+	border-radius: 4px;
+	color: #4a5158;
+	cursor: pointer;
+	transition: background 0.2s ease-in-out;
+}
+
+input[type="file"]::file-selector-button:hover {
+	background: #4a5158;
+	color: #e9ecef;
+}
