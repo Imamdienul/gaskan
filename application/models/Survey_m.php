@@ -346,6 +346,7 @@ public function update_survey_result($data)
     $this->db->where('st.id_registrasi_customer', $id_registrasi_customer);
     return $this->db->get()->row();
 }
+
 public function update_survey_assignment($data)
 {
     $params = [

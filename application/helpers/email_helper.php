@@ -142,18 +142,18 @@ if (!function_exists('generate_activation_pdf')) {
         // Header with logo
         $logo_path = FCPATH . 'assets/images/logogisaka.png';
         if (file_exists($logo_path)) {
-            $pdf->Image($logo_path, 10, 12, 50);
+            $pdf->Image($logo_path, 10, 5, 30);
         }
 
         // Header text
         $pdf->SetFont('Arial', 'B', 12);
-        $pdf->SetXY(60, 10);
+        $pdf->SetXY(45, 10);
         $pdf->Cell(0, 7, 'REQUEST PPPOE / ACTIVATION', 0, 1, 'L');
         $pdf->SetFont('Arial', 'B', 11);
-        $pdf->SetXY(60, 17);
+        $pdf->SetXY(45, 17);
         $pdf->Cell(0, 7, 'PT. GIANDRA SAKA MEDIA', 0, 1, 'L');
         $pdf->SetFont('Arial', '', 10);
-        $pdf->SetXY(60, 24);
+        $pdf->SetXY(45, 24);
         $pdf->Cell(0, 7, 'GISAKA MEDIA | Listen, Serve and Happy!', 0, 1, 'L');
 
         $pdf->Ln(5);
@@ -200,24 +200,23 @@ if (!function_exists('generate_activation_pdf')) {
         $pdf->Cell(5, $row_height, ':', $border, 0, 'C'); 
         $pdf->Cell(140, $row_height, $activation_data->nama_paket, $border, 1, 'L');
 
-        $pdf->Cell(45, $row_height, 'PANJANG/NOMOR KABEL', $border, 0, 'L');
+        $pdf->Cell(45, $row_height, 'PANJANG KABEL', $border, 0, 'L');
         $pdf->Cell(5, $row_height, ':', $border, 0, 'C');
-        $pdf->Cell(140, $row_height, $activation_data->panjang_kabel . ' M | ' . $activation_data->nomor_roll_kabel, $border, 1, 'L');
+        $pdf->Cell(140, $row_height, $activation_data->panjang_kabel . ' Meter | NO. KABEL : ' . $activation_data->nomor_roll_kabel, $border, 1, 'L');
 
         $pdf->Cell(45, $row_height, 'AREA', $border, 0, 'L');
         $pdf->Cell(5, $row_height, ':', $border, 0, 'C');
         $pdf->Cell(140, $row_height, $activation_data->nama_wilayah, $border, 1, 'L');
 
-        $pdf->Cell(45, $row_height, 'MODEM /TIPE/SN/MAC', $border, 0, 'L');
+        $pdf->Cell(45, $row_height, 'MODEM / ONT', $border, 0, 'L');
         $pdf->Cell(5, $row_height, ':', $border, 0, 'C');
-        $modem_info = $activation_data->merk_modem . ' | ' . $activation_data->tipe_modem . ' | ' . $activation_data->sn_modem . ' | ' . $activation_data->mac_address;
+        $modem_info = $activation_data->merk_modem . ' ' . $activation_data->tipe_modem . ' | ' . $activation_data->sn_modem . ' | ' . $activation_data->mac_address;
         $pdf->Cell(140, $row_height, $modem_info, $border, 1, 'L');
 
         $pdf->SetFont('Arial', 'B', 9);
-        $pdf->Cell(45, $row_height, 'ODP', $border, 0, 'L');
-        $pdf->Cell(5, $row_height, ':', $border, 0, 'C');
+        $pdf->Cell(25, $row_height, 'ODP', $border, 0, 'L');
         $odp_info = $odp_data->nama_odp . ' | Port ' . $activation_data->port_odp . ' | (' . $activation_data->redaman_pelanggan . ' dBm)';
-        $pdf->Cell(140, $row_height, $odp_info, $border, 1, 'L');
+        $pdf->Cell(165, $row_height, $odp_info, $border, 1, 'L');
 
         // Image section
         $img_base_path = FCPATH . 'uploads/instalasi/';
@@ -270,29 +269,19 @@ if (!function_exists('generate_activation_pdf')) {
             $pdf->Cell(190, 8, '', 1, 1, 'L');
         }
 
-        // Signature sectionK
+        // Signature section
         $pdf->SetFont('Arial', 'B', 9);
-// Baris header
-$pdf->Cell(95, 8, 'NOC:', 1, 0, 'L');
-$pdf->Cell(95, 8, 'REQUESTOR:', 1, 1, 'L');
+        $pdf->Cell(95, 8, 'NOC:', 1, 0, 'L');
+        $pdf->Cell(95, 8, 'REQUESTOR:', 1, 1, 'L');
 
-// Simpan posisi sebelum membuat kotak
-$yStart = $pdf->GetY();
+        $pdf->Cell(95, 20, '', 1, 0, 'L');
+        $pdf->Cell(95, 20, '', 1, 1, 'L');
 
-// Kotak kosong (untuk tanda tangan)
-$pdf->Cell(95, 34, '', 1, 0); // NOC
-$pdf->Cell(95, 34, '', 1, 1); // Requestor
-
-// Posisi teks di dalam kotak bagian bawah
-$pdf->SetFont('Arial', '', 9);
-$pdf->SetY($yStart + 22); // Geser ke bagian bawah dalam kotak (sesuaikan angka ini untuk posisi yang pas)
-
-$pdf->Cell(95, 5, '__________________________', 0, 0, 'C'); // Garis tangan NOC
-$pdf->Cell(95, 5, $activation_data->nama_teknisi . ' (' . $activation_data->phone_user . ')', 0, 1, 'C');
-
-$pdf->Cell(95, 4, '', 0, 0, 'C');
-$pdf->Cell(95, 4, $activation_data->email_user, 0, 1, 'C');
-
+        $pdf->SetFont('Arial', '', 9);
+        $pdf->Cell(95, 5, '__________________________', 0, 0, 'C');
+        $pdf->Cell(95, 5, $activation_data->nama_teknisi . ' (+' . $activation_data->phone_user . ')', 0, 1, 'C');
+        $pdf->Cell(95, 4, '', 0, 0, 'C');
+        $pdf->Cell(95, 4, $activation_data->email_user, 0, 1, 'C');
 
         return $pdf->Output('', 'S');
     }

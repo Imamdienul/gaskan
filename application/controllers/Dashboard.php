@@ -11,6 +11,7 @@ class Dashboard extends CI_Controller
 		$this->load->model('Users_m');
 		$this->load->model('Pembelian_m');
 		$this->load->helper(['Rupiah', 'formatdate', 'pembelian', 'project', 'Status_pembelian']);
+		$this->load->helper('check_access');
 
 
 
@@ -18,8 +19,11 @@ class Dashboard extends CI_Controller
 
 	public function index()
 	{
+	    
 		$data['isdefault'] = $this->Users_m->password_is_default($this->session->userdata('id_user'));
 		$data['pembelian'] = $this->Pembelian_m->get_all_by_project_manager($this->session->userdata('id_user'));
+		restrict_access('dashboard');
+		
 		$this->template->load('shared/index', 'dashboard', $data);
 	}
 }

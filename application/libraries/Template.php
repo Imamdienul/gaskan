@@ -1,4 +1,5 @@
 <?php
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class Template
 {
@@ -12,7 +13,14 @@ class Template
     function load($template = '', $view = '', $view_data = array(), $return = FALSE)
     {
         $this->CI = &get_instance();
+        
+        // Load sidebar helper functions
+        $this->CI->load->helper('sidebar');
+        
+        // Load view with data
         $this->set('contents', $this->CI->load->view($view, $view_data, TRUE));
+        
+        // Return or output the complete template
         return $this->CI->load->view($template, $this->template_data, $return);
     }
 }
